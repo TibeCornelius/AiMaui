@@ -2,21 +2,30 @@ using CommunityToolkit.Maui.Views;
 
 namespace Ai.MNIST.UI
 {
+
     public partial class CreateNetworkPopUp : Popup
     {
+        public bool IhaveNotCanceld { get; private set; }
+        public bool isStandardNetwork { get; private set; }
         public CreateNetworkPopUp()
         {
+            IhaveNotCanceld = true;
             InitializeComponent();
         }
-        private void OnButton1Clicked(object sender, EventArgs e)
+        private void StandardNetwork(object sender, EventArgs e)
         {
-            // Handle Button 1 click
+            isStandardNetwork = true;
             Close();
         }
 
-        private void OnButton2Clicked(object sender, EventArgs e)
+        private void CustomNetwork(object sender, EventArgs e)
         {
-            // Handle Button 2 click
+            isStandardNetwork = false;
+            Close();
+        }
+        private void Close( object sender, EventArgs e )
+        {
+            IhaveNotCanceld = false;
             Close();
         }
     }

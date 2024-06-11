@@ -3,10 +3,31 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.Json;
+using AndroidX.Emoji2.Text.FlatBuffer;
 using MNIST.Data;
 
 namespace MNIST.NeuralNetworks
 {
+    public struct NetworkValues
+    {
+        public int LayerCount;
+        public int[] NeuronCount;
+        public NetworkValues()
+        {
+            this.LayerCount = 0;
+            this.NeuronCount = new int[0];
+        }
+        public void SetDefault()
+        {
+            this.LayerCount = 3;
+            this.NeuronCount = new int[3]{ 400, 150, 10 };
+        }
+        public void SetCustom( int LayerCount, int[] NeuronCount )
+        {
+            this.LayerCount = LayerCount;
+            this.NeuronCount = NeuronCount;
+        }
+    }
     class Manager
     {
         Network? network;
@@ -24,41 +45,13 @@ namespace MNIST.NeuralNetworks
             this.sTestingList = new List< string >();
         }
 
-        public void StartNewNetwork( bool StandartNetwork = false)
+        public void StartNewNetwork( NetworkValues networkValues )
         {
-            int AmmountOfLayers = 3;
             List<int> Neurons = new List<int>();
-            if( !StandartNetwork )
+            foreach( int NeuronCount in networkValues.NeuronCount )
             {
-                Console.WriteLine("Chose the Ammount of Layers");
-                bool inValidAmmount = true;
-                while ( inValidAmmount )
-                {
-                    AmmountOfLayers = Convert.ToInt16( Console.ReadLine() ) - 1;
-                    if( AmmountOfLayers > 0 && AmmountOfLayers < 5 )
-                    {
-                        inValidAmmount = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine( "EnterValidAmmount" );
-                    }
-                }
-                Console.WriteLine("Enter Ammount of neurons in each layer");
-
-                for( int layer = 0 ; layer < AmmountOfLayers ; layer++ )
-                {
-                    Console.WriteLine($"Hidden Layer { layer }");
-                    int AmmountofNeurons = Convert.ToInt16( Console.ReadLine() );
-                    Neurons.Add( AmmountofNeurons );
-                }
+                Neurons.Add( NeuronCount );
             }
-            else
-            {
-                Neurons.Add( 400 );
-                Neurons.Add( 150 );            
-            }
-            Neurons.Add( 10 );
             network = new Network( Neurons );
         }
 

@@ -12,20 +12,34 @@ namespace Ai.MNIST.UI
             this.NetworkManager = new Manager();
         }
         
-        public void StartNewNetwork( object sender, EventArgs e )
+        public async void StartNewNetwork( object sender, EventArgs e )
         {
-            CreateNetworkPopUp CreateNewNetwork = new();
-            this.ShowPopup( CreateNewNetwork );
+            var createNewNetworkPopup = new CreateNetworkPopUp();
+            var result = await this.ShowPopupAsync( createNewNetworkPopup );
+            if( createNewNetworkPopup.IhaveNotCanceld )
+            {
+                NetworkValues networkValues = new NetworkValues();
+                if( createNewNetworkPopup.isStandardNetwork )
+                {
+                    networkValues.SetDefault();
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                    //networkValues.SetCustom();
+                }
+                NetworkManager.StartNewNetwork( networkValues );
+            }
         }
 
         public void LoadOldNetwork( object sender, EventArgs e )
         {
-
+            NetworkManager.LoadInNetworkFromJson();
         }
 
         public void SerializeNetwork( object sender, EventArgs e )
         {
-            
+            NetworkManager.SerializeWheightAndBiasesToJson();         
         }
 
     }
