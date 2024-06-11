@@ -1,0 +1,36 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ai.MNISTDATAPage">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding= "30,0"
+            Spacing= "25">
+        <Label
+            Text="Welcome to the MNIST Dataset"
+            HorizontalOptions="Center"
+            SemanticProperties.HeadingLevel="Level1"
+            />
+        <Button
+            x:Name="bNewNetwork"
+            Text="Create new network"
+            SemanticProperties.Hint="Create a new neural network with untrained wheights and biases"
+            HorizontalOptions="Fill"
+            Clicked="StartNewNetwork"
+            />
+        <Button
+            x:Name="bOldNetwork"
+            Text="Load in a previous network"
+            SemanticProperties.Hint="Load in a network from a .json file"
+            HorizontalOptions="Fill"
+            Clicked="LoadOldNetwork"
+            />
+        <Button
+            x:Name="bSerializeNetwork"
+            Text="Serialize current wheights and biases"
+            SemanticProperties.Hint="Export current wheights and biase in to a .json file"
+            HorizontalOptions="Fill"
+            Clicked="SerializeNetwork"
+            />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
