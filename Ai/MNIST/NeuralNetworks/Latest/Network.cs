@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace MNISTDATA.NeuralNetworks
+namespace MNIST.NeuralNetworks
 {
 
     public class Network

@@ -1,7 +1,7 @@
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Graphics.Skia;
 
-namespace MNISTDATA
+namespace MNIST.Data
 {
     public static class MNIST
     {

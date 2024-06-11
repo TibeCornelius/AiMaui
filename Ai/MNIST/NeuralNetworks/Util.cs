@@ -1,4 +1,4 @@
-namespace MNISTDATA.NeuralNetworks
+namespace MNIST.NeuralNetworks
 {
     public static class Util
     {

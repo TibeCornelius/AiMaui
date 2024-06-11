@@ -1,6 +1,6 @@
 using Microsoft.Maui.Graphics.Skia;
 
-namespace MNISTDATA
+namespace MNIST.Data
 {
     public class MNISTExtra
     {   

@@ -3,8 +3,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.Json;
+using MNIST.Data;
 
-namespace MNISTDATA.NeuralNetworks
+namespace MNIST.NeuralNetworks
 {
     class Manager
     {
@@ -13,10 +14,10 @@ namespace MNISTDATA.NeuralNetworks
         private List< string > sTrainingList; 
         private List< byte[,] > bTestingList;
         private List< string > sTestingList;
-        MNISTDATA.Image DataSet;
+        MNIST.Data.Image DataSet;
         public Manager()
         {
-            this.DataSet = new MNISTDATA.Image();
+            this.DataSet = new MNIST.Data.Image();
             this.bTrainingList = new List< byte[,] >();
             this.sTrainingList = new List<string>();
             this.bTestingList = new List< byte[,] >();
@@ -135,7 +136,7 @@ namespace MNISTDATA.NeuralNetworks
                 Console.WriteLine("Neuralnetworkdoes not yet exist create or import one first");
                 return;
             }
-            foreach( MNISTDATA.Image image in MNIST.ReadTestData() )
+            foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTestData() )
             {
                 bTestingList.Add( image.Data );
                 sTestingList.Add( Convert.ToString( image.Label ) );
@@ -172,7 +173,7 @@ namespace MNISTDATA.NeuralNetworks
                 Console.WriteLine("Neuralnetworkdoes not yet exist create or import one first");
                 return;
             }
-            foreach( MNISTDATA.Image image in MNIST.ReadTrainingData() )
+            foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTestData() )
             {
                 bTrainingList.Add( image.Data );
                 sTrainingList.Add( Convert.ToString( image.Label ) );

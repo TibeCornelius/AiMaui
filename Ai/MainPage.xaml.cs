@@ -1,4 +1,5 @@
-﻿namespace Ai;
+﻿using Ai.MNIST.UI;
+namespace Ai;
 
 public partial class MainPage : ContentPage
 {

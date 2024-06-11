@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Ai.MNIST.UI.CreateNetworkPopUp">
+    <VerticalStackLayout Padding="10" BackgroundColor="White">
+        <Button 
+            Text="Button 1" 
+            Clicked="OnButton1Clicked"/>
+        <Button 
+            Text="Button 2" 
+            Clicked="OnButton2Clicked"/>
+    </VerticalStackLayout>
+</toolkit:Popup>
