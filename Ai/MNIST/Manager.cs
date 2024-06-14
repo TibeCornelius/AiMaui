@@ -3,8 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.Json;
-using AndroidX.Emoji2.Text.FlatBuffer;
-using MNIST.Data;
+
 
 namespace MNIST.NeuralNetworks
 {
@@ -32,7 +31,7 @@ namespace MNIST.NeuralNetworks
     {
         Network? network;
         private List< byte[,] > bTrainingList;
-        private List< string > sTrainingList; 
+        private List< string > sTrainingList;
         private List< byte[,] > bTestingList;
         private List< string > sTestingList;
         MNIST.Data.Image DataSet;

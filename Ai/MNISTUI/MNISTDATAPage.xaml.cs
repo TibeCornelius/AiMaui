@@ -25,13 +25,17 @@ namespace Ai.MNIST.UI
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    ChooseCustomNetworkValues();
                     //networkValues.SetCustom();
                 }
                 NetworkManager.StartNewNetwork( networkValues );
             }
         }
 
+        public async void ChooseCustomNetworkValues()
+        {
+            await Navigation.PushAsync( new ChooseCustomNetworkParametersPage() );
+        }
         public void LoadOldNetwork( object sender, EventArgs e )
         {
             NetworkManager.LoadInNetworkFromJson();
@@ -39,7 +43,7 @@ namespace Ai.MNIST.UI
 
         public void SerializeNetwork( object sender, EventArgs e )
         {
-            NetworkManager.SerializeWheightAndBiasesToJson();         
+            NetworkManager.SerializeWheightAndBiasesToJson();       
         }
 
     }
