@@ -8,14 +8,16 @@ namespace Ai.MNIST.UI
         string LayerCountText;
         int LayerCount;
         Dictionary<int, string> DictNeuronCountEntrys;
-        NetworkValues networkValues;
-        public ChooseCustomNetworkParametersPage()
+        NetworkValues myNetworkValeus;
+        MNISTDATAPage myParentPage;
+        public ChooseCustomNetworkParametersPage( MNISTDATAPage ParentPage )
         {
+            this.myParentPage = ParentPage;
             this.LayerCount = 0;
             this.LayerCountText = string.Empty;
             this.DictNeuronCountEntrys = []; 
             InitializeComponent();
-            networkValues = new NetworkValues();
+            myNetworkValeus = new NetworkValues();
         }
         private void LayerCountEntry( object sender, TextChangedEventArgs e )
         {
@@ -121,7 +123,12 @@ namespace Ai.MNIST.UI
                     return;
                 }
             }
-            networkValues.SetCustom( LayerCount, NeuronCount );
+            NeuronCount[ LayerCount - 1 ] = 10;
+            myNetworkValeus.SetCustom( LayerCount, NeuronCount );
+            myParentPage.myInternalNetworkValues = myNetworkValeus;
+            myParentPage.StartNewNetwork();
+            myParentPage.ChageCurrentDisplayOfNetwork();
+            await Navigation.PopAsync();
         }
     }
 }

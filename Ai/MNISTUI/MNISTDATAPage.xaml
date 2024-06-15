@@ -2,35 +2,76 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ai.MNIST.UI.MNISTDATAPage">
     <ScrollView>
-        <VerticalStackLayout
-            Padding= "30,0"
-            Spacing= "25">
-        <Label
-            Text="Welcome to the MNIST Dataset"
-            HorizontalOptions="Center"
-            SemanticProperties.HeadingLevel="Level1"
-            />
-        <Button
-            x:Name="bNewNetwork"
-            Text="Create new network"
-            SemanticProperties.Hint="Create a new neural network with untrained wheights and biases"
-            HorizontalOptions="Fill"
-            Clicked="StartNewNetwork"
-            />
-        <Button
-            x:Name="bOldNetwork"
-            Text="Load in a previous network"
-            SemanticProperties.Hint="Load in a network from a .json file"
-            HorizontalOptions="Fill"
-            Clicked="LoadOldNetwork"
-            />
-        <Button
-            x:Name="bSerializeNetwork"
-            Text="Serialize current wheights and biases"
-            SemanticProperties.Hint="Export current wheights and biase in to a .json file"
-            HorizontalOptions="Fill"
-            Clicked="SerializeNetwork"
-            />
+        <VerticalStackLayout Padding="10">
+            <Grid HeightRequest="200">
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+                <StackLayout 
+                    x:Name="LayerCountStack"
+                    Grid.Column="0"
+                    Padding="10">
+                    <Label 
+                        Text="Current Network" 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                    <!-- Add more content here -->
+                    <Label
+                        Text="Layerer Count ->"
+                        x:Name="lLayerCount"
+                        HorizontalOptions="Center"
+                        />
+                </StackLayout>
+
+                <!-- Content for the second column -->
+                <StackLayout 
+                    Grid.Column="1"
+                    Padding="10">
+                    <Label 
+                        Text="Section 2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                    <!-- Add more content here -->
+                </StackLayout>
+            </Grid>
+            <VerticalStackLayout
+                Padding= "30,0"
+                Spacing= "25">
+                <Label
+                    Text="Welcome to the MNIST Dataset"
+                    HorizontalOptions="Center"
+                    SemanticProperties.HeadingLevel="Level1"
+                    />
+                <Button
+                    x:Name="bNewNetwork"
+                    Text="Create new network"
+                    SemanticProperties.Hint="Create a new neural network with untrained wheights and biases"
+                    HorizontalOptions="Fill"
+                    Clicked="StartNewNetwork"
+                    />
+                <Button
+                    x:Name="bOldNetwork"
+                    Text="Load in a previous network"
+                    SemanticProperties.Hint="Load in a network from a .json file"
+                    HorizontalOptions="Fill"
+                    Clicked="LoadOldNetwork"
+                    />
+                <Button
+                    x:Name="bSerializeNetwork"
+                    Text="Serialize current wheights and biases"
+                    SemanticProperties.Hint="Export current wheights and biase in to a .json file"
+                    HorizontalOptions="Fill"
+                    Clicked="SerializeNetwork"
+                    />
+                <Button
+                    x:Name="bCurrentNetwork"
+                    Text="Go to current Network"
+                    SemanticProperties.Hint="Explore the options avaible with the current network loaded in"
+                    HorizontalOptions="Fill"
+                    Clicked="GoToCurrentNetworkPage"
+                    />
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

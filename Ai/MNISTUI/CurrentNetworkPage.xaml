@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ai.MNIST.UI.CurrentNetworkPage">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Welcome to your current network"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Feel free to play with any of the provided settings"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                x:Name="bImportTrainingImages"
+                Text="Import set of Training images"
+                Clicked="ImporteSetOfTrainingImages" 
+                SemanticProperties.Hint="Imports a set of training images to further train the network"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="bImportTestingImages"
+                Text="Import set of Testing images"
+                Clicked="ImporteSetOfTestingImages"
+                SemanticProperties.Hint="Import a set of Testing images designed to test if the Training is proceding in a acceptable fashion"
+                HorizontalOptions="Fill"/>  
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

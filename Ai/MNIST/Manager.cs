@@ -27,9 +27,14 @@ namespace MNIST.NeuralNetworks
             this.NeuronCount = NeuronCount;
         }
     }
+    public class ImportImages
+    {
+        public int Ammount;
+        public int Itterations;
+    }
     class Manager
     {
-        Network? network;
+        internal Network? network;
         private List< byte[,] > bTrainingList;
         private List< string > sTrainingList;
         private List< byte[,] > bTestingList;
@@ -121,11 +126,10 @@ namespace MNIST.NeuralNetworks
         }
 
 
-        public void ImportSetOfTestingImages()
+        public void ImportSetOfTestingImages( ImportImages trainingImages )
         {
             if( network == null )
             {
-                Console.WriteLine("Neuralnetworkdoes not yet exist create or import one first");
                 return;
             }
             foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTestData() )
@@ -136,10 +140,8 @@ namespace MNIST.NeuralNetworks
 
             Random random = new Random();
             int AmmountImages;
-            Console.WriteLine("How Many images do you want to import?");
-            AmmountImages = Convert.ToInt16( Console.ReadLine() );
-            Console.WriteLine("How Many Itteration do you want to run?");
-            int Itterations = Convert.ToInt16( Console.ReadLine() );
+            AmmountImages = trainingImages.Ammount;
+            int Itterations = trainingImages.Itterations;
             for( int Itteration = 0 ; Itteration < Itterations ; Itteration++ )
             {
                 List< byte[,] > listToTrain = new List< byte[,] >();
@@ -158,7 +160,7 @@ namespace MNIST.NeuralNetworks
             sTestingList.Clear();
         }
 
-        public void ImportSetOfTrainingImages()
+        public void ImportSetOfTrainingImages( ImportImages trainingImages )
         {
             if( network == null )
             {
@@ -172,10 +174,8 @@ namespace MNIST.NeuralNetworks
             }
             Random random = new Random();
             int AmmountImages;
-            Console.WriteLine("How Many images do you want to import?");
-            AmmountImages = Convert.ToInt16( Console.ReadLine() );
-            Console.WriteLine("How Many Itteration do you want to run?");
-            int Itterations = Convert.ToInt16( Console.ReadLine() );
+            AmmountImages = trainingImages.Ammount;
+            int Itterations = trainingImages.Itterations;
             for( int Itteration = 0 ; Itteration < Itterations ; Itteration++ )
             {
                 List< byte[,] > listToTrain = new List< byte[,] >();

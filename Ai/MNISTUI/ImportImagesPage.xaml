@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ai.MNIST.UI.ImportImagesPage">
+
+    <ScrollView>
+        <StackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Label
+                Text="Layer count"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel = "Level1"
+                />
+            <Entry
+                Placeholder="Enter ammount of images"
+                />
+            <Entry
+                Placeholder="Enter ammount of itterations"
+                />
+            <Button
+                x:Name="bNext"
+                Text="Next"
+                SemanticProperties.Hint="Start defining the neuron count on each layer"
+                HorizontalOptions="Fill"
+                />
+            <StackLayout x:Name="NeuronCountContainer"
+                Padding="0"
+                Spacing="10"/>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
