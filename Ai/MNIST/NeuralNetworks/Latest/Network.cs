@@ -2,14 +2,35 @@ using System.Text.Json;
 
 namespace MNIST.NeuralNetworks
 {
+    public class ImageData( int ImageNumber, double Cost)
+    {
+        public int ImageNumber = ImageNumber;
+        public double Cost = Cost; 
+    }
+    public class TrainingDataOutput
+    {
+        public List<ImageData> ImageData;
+        public int CorrectGuesses;
+        public double TotalAverageCost;
+        public TrainingDataOutput()
+        {
+            this.ImageData = new List<ImageData>();
+            this.CorrectGuesses = new int();
+            this.TotalAverageCost = new double();
+        }
+    }
 
     public class Network
     {
         public List<Layer> NetworkLayers;
         public List<int> LiNetwork;
+        public List<TrainingDataOutput> OurTrainingResults;
+        public List<TrainingDataOutput> OurTestingResults;
         public Network( List<int> Network, bool New_Network = true, string _JsonFile  = "")
         {
             this.LiNetwork = Network;
+            this.OurTrainingResults = new List<TrainingDataOutput>();
+            this.OurTestingResults = new List<TrainingDataOutput>();
             
             this.NetworkLayers = new List<Layer>();
             if( New_Network )
@@ -85,10 +106,11 @@ namespace MNIST.NeuralNetworks
             double returnvalue = WeightedInput / 255;
             return returnvalue;
         }
-        public void Train( List<byte[,]> images, List<string> labels, int TrainingSession )
+        public TrainingDataOutput Train( List<byte[,]> images, List<string> labels, int TrainingSession )
         {
             List<ImportedImage> LiStImportedImages = new List<ImportedImage>();
             int CorrectGuesses = 0;
+            TrainingDataOutput myTraningResults = new TrainingDataOutput();
             for( int imageIndex = 0 ; imageIndex < images.Count ; imageIndex++ )
             {
                 ImportedImage StImportedImage = new ImportedImage
@@ -99,34 +121,37 @@ namespace MNIST.NeuralNetworks
                     excpectedOutput = CalculateCorrectOutputs(labels[imageIndex]),
                     label = labels[imageIndex]
                 };
+                int CorrectOutput = Convert.ToInt16(StImportedImage.label);
                 foreach ( Layer layer in NetworkLayers )
                 {
                     layer.CalculateInputsEveryNeuron( StImportedImage );
                     layer.CalculateOutputs();
                 }
                 StImportedImage.cost = Cost( StImportedImage );
-                if( GetHighestOutput( StImportedImage ) == Convert.ToInt16(StImportedImage.label) )
+                if( GetHighestOutput( StImportedImage ) == CorrectOutput )
                 {
                     CorrectGuesses++;
                 }
-                //Console.WriteLine( StImportedImage.cost );
 
                 Gradients( StImportedImage );
 
                 LiStImportedImages.Add( StImportedImage );
+                myTraningResults.ImageData.Add( new ImageData( CorrectGuesses, StImportedImage.cost ) );
             }
             double TotalAverageCost = TotalCost( LiStImportedImages );
             double LearningRate = 0.001;
             ApplyAllGradients( LearningRate );
             ResetAllGradients();
-            Console.WriteLine("TotalCorrectGuesses = " + CorrectGuesses);
-            Console.WriteLine( TotalAverageCost );
-            Console.WriteLine($"TrainSession {TrainingSession} ");
+            myTraningResults.CorrectGuesses = CorrectGuesses;
+            myTraningResults.TotalAverageCost = TotalAverageCost;
+            OurTrainingResults.Add( myTraningResults );
+            return myTraningResults;
         }
-        public void Test( List<byte[,]> images, List<string> labels, int TrainingSession )
+        public TrainingDataOutput Test( List<byte[,]> images, List<string> labels, int TrainingSession )
         {
             List<ImportedImage> LiStImportedImages = new List<ImportedImage>();
             int CorrectGuesses = 0;
+            TrainingDataOutput myResults = new TrainingDataOutput();
             for( int imageIndex = 0 ; imageIndex < images.Count ; imageIndex++ )
             {
                 ImportedImage StImportedImage = new ImportedImage
@@ -137,22 +162,25 @@ namespace MNIST.NeuralNetworks
                     excpectedOutput = CalculateCorrectOutputs(labels[imageIndex]),
                     label = labels[imageIndex]
                 };
+                int CorrectGues = Convert.ToInt16( StImportedImage.label );
                 foreach ( Layer layer in NetworkLayers )
                 {
                     layer.CalculateInputsEveryNeuron( StImportedImage );
                     layer.CalculateOutputs();
                 }
                 StImportedImage.cost = Cost( StImportedImage );
-                if( GetHighestOutput( StImportedImage ) == Convert.ToInt16(StImportedImage.label) )
+                myResults.ImageData.Add( new ImageData( CorrectGues, StImportedImage.cost ) );
+                if( GetHighestOutput( StImportedImage ) == CorrectGues )
                 {
                     CorrectGuesses++;
                 }
                 LiStImportedImages.Add( StImportedImage );
             }
             double TotalAverageCost = TotalCost( LiStImportedImages );
-            Console.WriteLine("TotalCorrectGuesses = " + CorrectGuesses);
-            Console.WriteLine( TotalAverageCost );
-            Console.WriteLine($"TrainSession {TrainingSession} ");
+            myResults.CorrectGuesses = CorrectGuesses;
+            myResults.TotalAverageCost = TotalAverageCost;
+            OurTestingResults.Add( myResults );
+            return myResults;
         }
             
         private void ResetAllGradients()
@@ -204,8 +232,6 @@ namespace MNIST.NeuralNetworks
                 }
                 index++;
             }
-            //Console.WriteLine( "The output is " + iOutput );
-            //Console.WriteLine("The actual output is " + StImportedImage.label );
             return iOutput;
         }
 

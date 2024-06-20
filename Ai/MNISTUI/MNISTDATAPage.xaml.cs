@@ -58,7 +58,7 @@ namespace Ai.MNIST.UI
         {
             if( myNetworkManager.network is not null )
             {
-                await Navigation.PushAsync( new CurrentNetworkPage( myNetworkManager.network ) );
+                await Navigation.PushAsync( new CurrentNetworkPage( myNetworkManager.network, myNetworkManager ) );
             }
             else
             {

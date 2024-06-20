@@ -1,0 +1,39 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ai.MNIST.UI.CurrentNetworkStatsPage">
+    <ScrollView>
+        <VerticalStackLayout 
+            x:Name="MainContainer"
+            Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackLayout
+                    x:Name="AllDataStack"
+                    Grid.Column="0"
+                    Padding="10">
+                    <Label Text="Correct Guesses 0 -> " x:Name="l0" />
+                    <Label Text="Correct Guesses 1 -> " x:Name="l1" />
+                    <Label Text="Correct Guesses 2 -> " x:Name="l2" />
+                    <Label Text="Correct Guesses 3 -> " x:Name="l3" />
+                    <Label Text="Correct Guesses 4 -> " x:Name="l4" />
+                    <Label Text="Correct Guesses 5 -> " x:Name="l5" />
+                    <Label Text="Correct Guesses 6 -> " x:Name="l6" />
+                    <Label Text="Correct Guesses 7 -> " x:Name="l7" />
+                    <Label Text="Correct Guesses 8 -> " x:Name="l8" />
+                    <Label Text="Correct Guesses 9 -> " x:Name="l9" />
+                </StackLayout>
+                
+                <StackLayout
+                    x:Name="RecentDataStack"
+                    Grid.Column="1"
+                    Padding="10">
+                    <!-- Add content here as needed -->
+                </StackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

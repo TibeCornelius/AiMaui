@@ -32,7 +32,7 @@ namespace MNIST.NeuralNetworks
         public int Ammount;
         public int Itterations;
     }
-    class Manager
+    public class Manager
     {
         internal Network? network;
         private List< byte[,] > bTrainingList;
@@ -126,18 +126,19 @@ namespace MNIST.NeuralNetworks
         }
 
 
-        public void ImportSetOfTestingImages( ImportImages trainingImages )
+        public List<TrainingDataOutput> ImportSetOfTestingImages( ImportImages trainingImages )
         {
             if( network == null )
             {
-                return;
+                return new List<TrainingDataOutput>();
             }
             foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTestData() )
             {
                 bTestingList.Add( image.Data );
                 sTestingList.Add( Convert.ToString( image.Label ) );
             }
-
+            
+            List<TrainingDataOutput> trainingResults = new List<TrainingDataOutput>();
             Random random = new Random();
             int AmmountImages;
             AmmountImages = trainingImages.Ammount;
@@ -153,25 +154,28 @@ namespace MNIST.NeuralNetworks
                     listToTrain.Add( bTestingList[ randomnumber ] );
                     sListToTrain.Add( sTestingList[ randomnumber ] );
                 }
-                network.Test( listToTrain, sListToTrain, Itteration + 1 );
+                trainingResults.Add( network.Test( listToTrain, sListToTrain, Itteration + 1 ) );
             }
 
             bTestingList.Clear();
             sTestingList.Clear();
+            return trainingResults;
         }
 
-        public void ImportSetOfTrainingImages( ImportImages trainingImages )
+        public List<TrainingDataOutput> ImportSetOfTrainingImages( ImportImages trainingImages )
         {
             if( network == null )
             {
                 Console.WriteLine("Neuralnetworkdoes not yet exist create or import one first");
-                return;
+                return new List<TrainingDataOutput>();
             }
             foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTestData() )
             {
                 bTrainingList.Add( image.Data );
                 sTrainingList.Add( Convert.ToString( image.Label ) );
             }
+
+            List<TrainingDataOutput> trainingResults = new List<TrainingDataOutput>();
             Random random = new Random();
             int AmmountImages;
             AmmountImages = trainingImages.Ammount;
@@ -187,10 +191,12 @@ namespace MNIST.NeuralNetworks
                     listToTrain.Add( bTrainingList[ randomnumber ] );
                     sListToTrain.Add( sTrainingList[ randomnumber ] );
                 }
-                network.Train( listToTrain, sListToTrain, Itteration + 1 );
+                trainingResults.Add( network.Train( listToTrain, sListToTrain, Itteration + 1 ) );
+                
             }
             bTrainingList.Clear();
             sTrainingList.Clear();
+            return trainingResults;
         }
 
     }

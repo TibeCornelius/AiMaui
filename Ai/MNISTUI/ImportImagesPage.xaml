@@ -3,31 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ai.MNIST.UI.ImportImagesPage">
 
-    <ScrollView>
-        <StackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Label
-                Text="Layer count"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel = "Level1"
-                />
-            <Entry
-                Placeholder="Enter ammount of images"
-                />
-            <Entry
-                Placeholder="Enter ammount of itterations"
-                />
-            <Button
-                x:Name="bNext"
-                Text="Next"
-                SemanticProperties.Hint="Start defining the neuron count on each layer"
-                HorizontalOptions="Fill"
-                />
-            <StackLayout x:Name="NeuronCountContainer"
-                Padding="0"
-                Spacing="10"/>
-        </StackLayout>
-    </ScrollView>
+
+        <VerticalStackLayout Padding="10">
+            <StackLayout
+                Padding="30,0"
+                Spacing="25">
+                <Label
+                    Text="Layer count"
+                    Style="{StaticResource SubHeadline}"
+                    SemanticProperties.HeadingLevel = "Level1"
+                    />
+                <Entry
+                    Placeholder="Enter ammount of images"
+                    TextChanged="TextChangesImageCount"
+                    />
+                <Entry
+                    Placeholder="Enter ammount of itterations"
+                    TextChanged="TextChangedItterationsCount"
+                    />
+                <Button
+                    x:Name="bRunThroughNetwork"
+                    Text="Run through network"
+                    SemanticProperties.Hint="Start defining the neuron count on each layer"
+                    Clicked="PassImagesThroughNetwork"
+                    HorizontalOptions="Fill"
+                    />
+                <StackLayout x:Name="NeuronCountContainer"
+                    Padding="0"
+                    Spacing="10"/>
+            </StackLayout>
+            <ScrollView>
+                <VerticalStackLayout Padding="10"
+                    x:Name="TrainingResultsContainer">
+                </VerticalStackLayout>
+            </ScrollView>
+        </VerticalStackLayout>
+
 
 </ContentPage>
