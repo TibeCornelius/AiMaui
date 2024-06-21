@@ -14,24 +14,125 @@
                 <StackLayout
                     x:Name="AllDataStack"
                     Grid.Column="0"
-                    Padding="10">
-                    <Label Text="Correct Guesses 0 -> " x:Name="l0" />
-                    <Label Text="Correct Guesses 1 -> " x:Name="l1" />
-                    <Label Text="Correct Guesses 2 -> " x:Name="l2" />
-                    <Label Text="Correct Guesses 3 -> " x:Name="l3" />
-                    <Label Text="Correct Guesses 4 -> " x:Name="l4" />
-                    <Label Text="Correct Guesses 5 -> " x:Name="l5" />
-                    <Label Text="Correct Guesses 6 -> " x:Name="l6" />
-                    <Label Text="Correct Guesses 7 -> " x:Name="l7" />
-                    <Label Text="Correct Guesses 8 -> " x:Name="l8" />
-                    <Label Text="Correct Guesses 9 -> " x:Name="l9" />
+                    Padding="10"
+                    HorizontalOptions="Center"
+                    >
+                    <Label Text="0-9" />
+                    <StackLayout
+                        x:Name="AllDataStackTotal"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotalGuesses" />
+                        <Label Text="CorrectGuesses Guesses -> 0" x:Name="lCorrectGuesses" />
+                    </StackLayout>
+                    <Label Text="0" />
+                    <StackLayout
+                        x:Name="AllDataStack0"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal0" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect0" />
+                    </StackLayout>
+                    <Label Text="1" />                    
+                    <StackLayout
+                        x:Name="AllDataStack1"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal1" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect1" />
+                    </StackLayout>
+                    <Label Text="2" />
+                    <StackLayout
+                        x:Name="AllDataStack2"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal2" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect2" />
+                    </StackLayout>
+                    <Label Text="3" />
+                    <StackLayout
+                        x:Name="AllDataStack3"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal3" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect3" />
+                    </StackLayout>
+                    <Label Text="4" />
+                    <StackLayout
+                        x:Name="AllDataStack4"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal4" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect4" />
+                    </StackLayout>
+                    <Label Text="5" />
+                    <StackLayout
+                        x:Name="AllDataStack5"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal5" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect5" />
+                    </StackLayout>
+                    <Label Text="6" /> 
+                    <StackLayout
+                        x:Name="AllDataStack6"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal6" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect6" />
+                    </StackLayout>
+                    <Label Text="7" />
+                    <StackLayout
+                        x:Name="AllDataStack7"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal7" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect7" />
+                    </StackLayout>
+                    <Label Text="8" />
+                    <StackLayout
+                        x:Name="AllDataStack8"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal8" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect8" />
+                    </StackLayout>
+                    <Label Text="9"/>
+                    <StackLayout
+                        x:Name="AllDataStack9"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        >
+                        <Label Text="Total Guesses -> 0" x:Name="lTotal9" />
+                        <Label Text="Correct Guesses -> 0" x:Name="lCorrect9" />
+                    </StackLayout>  
                 </StackLayout>
                 
-                <StackLayout
+                <StackLayout    
                     x:Name="RecentDataStack"
                     Grid.Column="1"
                     Padding="10">
-                    <!-- Add content here as needed -->
                 </StackLayout>
             </Grid>
         </VerticalStackLayout>

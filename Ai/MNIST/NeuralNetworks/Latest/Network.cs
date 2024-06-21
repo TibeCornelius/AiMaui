@@ -2,9 +2,11 @@ using System.Text.Json;
 
 namespace MNIST.NeuralNetworks
 {
-    public class ImageData( int ImageNumber, double Cost)
+    public class ImageData( int ImageNumber, double Cost, int Guess)
     {
         public int ImageNumber = ImageNumber;
+        public int NumberGuessed = Guess;
+        public bool wasGuesCorrect => ImageNumber == NumberGuessed ;
         public double Cost = Cost; 
     }
     public class TrainingDataOutput
@@ -128,7 +130,8 @@ namespace MNIST.NeuralNetworks
                     layer.CalculateOutputs();
                 }
                 StImportedImage.cost = Cost( StImportedImage );
-                if( GetHighestOutput( StImportedImage ) == CorrectOutput )
+                int iGuessed = GetHighestOutput( StImportedImage );
+                if( iGuessed == CorrectOutput )
                 {
                     CorrectGuesses++;
                 }
@@ -136,7 +139,7 @@ namespace MNIST.NeuralNetworks
                 Gradients( StImportedImage );
 
                 LiStImportedImages.Add( StImportedImage );
-                myTraningResults.ImageData.Add( new ImageData( CorrectGuesses, StImportedImage.cost ) );
+                myTraningResults.ImageData.Add( new ImageData( iGuessed, StImportedImage.cost, CorrectOutput ) );
             }
             double TotalAverageCost = TotalCost( LiStImportedImages );
             double LearningRate = 0.001;
@@ -169,8 +172,9 @@ namespace MNIST.NeuralNetworks
                     layer.CalculateOutputs();
                 }
                 StImportedImage.cost = Cost( StImportedImage );
-                myResults.ImageData.Add( new ImageData( CorrectGues, StImportedImage.cost ) );
-                if( GetHighestOutput( StImportedImage ) == CorrectGues )
+                int iGuessed = GetHighestOutput( StImportedImage );
+                myResults.ImageData.Add( new ImageData( iGuessed, StImportedImage.cost, CorrectGues ) );
+                if( iGuessed == CorrectGues )
                 {
                     CorrectGuesses++;
                 }
