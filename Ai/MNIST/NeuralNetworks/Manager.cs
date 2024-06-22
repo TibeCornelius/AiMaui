@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.Json;
 
 
-namespace MNIST.NeuralNetworks
+namespace Ai.MNIST.NeuralNetworks
 {
     public struct NetworkValues
     {
@@ -27,6 +27,17 @@ namespace MNIST.NeuralNetworks
             this.NeuronCount = NeuronCount;
         }
     }
+    public readonly struct Image
+    {
+        public readonly byte[,] ImageData;
+        public readonly string Label;
+        public Image( byte[,] ImageData, string Label )
+        {
+            this.ImageData = ImageData;
+            this.Label = Label;
+        }
+
+    }
     public class ImportImages
     {
         public int Ammount;
@@ -34,7 +45,7 @@ namespace MNIST.NeuralNetworks
     }
     public class Manager
     {
-        internal Network? network;
+        public Network? network;
         private List< byte[,] > bTrainingList;
         private List< string > sTrainingList;
         private List< byte[,] > bTestingList;
@@ -48,6 +59,28 @@ namespace MNIST.NeuralNetworks
             this.bTestingList = new List< byte[,] >();
             this.sTestingList = new List< string >();
         }
+        public Image GetSingTrainingleImage()
+        {
+            Random random = new Random();
+            int index = random.Next( bTrainingList.Count );
+            foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTrainingData() )
+            {
+                bTrainingList.Add( image.Data );
+                sTrainingList.Add( Convert.ToString( image.Label ) );
+            }
+            return new Image( bTrainingList[ index ], sTrainingList[ index ] );
+        }
+        public Image GetSingTestingingleImage()
+        {
+            Random random = new Random();
+            foreach( MNIST.Data.Image image in MNIST.Data.MNIST.ReadTestData() )
+            {
+                bTestingList.Add( image.Data );
+                sTestingList.Add( Convert.ToString( image.Label ) );
+            }
+            int index = random.Next( bTestingList.Count );
+            return new Image( bTestingList[ index ], sTestingList[ index ] );
+        }
 
         public void StartNewNetwork( NetworkValues networkValues )
         {
@@ -58,6 +91,7 @@ namespace MNIST.NeuralNetworks
             }
             network = new Network( Neurons );
         }
+
 
         public void LoadInNetworkFromJson()
         {
@@ -108,6 +142,7 @@ namespace MNIST.NeuralNetworks
                 Console.WriteLine("Not yet implemented");
             }
         }
+
 
         public void SerializeWheightAndBiasesToJson()
         {

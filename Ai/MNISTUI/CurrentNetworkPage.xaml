@@ -10,37 +10,47 @@
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
-
+                SemanticProperties.Description="dot net bot in a race car number eight"
+                />
             <Label
                 Text="Welcome to your current network"
                 Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-
+                SemanticProperties.HeadingLevel="Level1"
+                />
             <Label
                 Text="Feel free to play with any of the provided settings"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
+                />
             <Button
                 x:Name="bImportTrainingImages"
                 Text="Import set of Training images"
                 Clicked="ImporteSetOfTrainingImages" 
                 SemanticProperties.Hint="Imports a set of training images to further train the network"
-                HorizontalOptions="Fill" />
+                HorizontalOptions="Fill" 
+                />
             <Button
                 x:Name="bImportTestingImages"
                 Text="Import set of Testing images"
                 Clicked="ImporteSetOfTestingImages"
                 SemanticProperties.Hint="Import a set of Testing images designed to test if the Training is proceding in a acceptable fashion"
-                HorizontalOptions="Fill"/>
+                HorizontalOptions="Fill"
+                />
+            <Button
+                x:Name="bPreviewImage"
+                Text="Preview image"
+                Clicked="PreviewAndImportImage"
+                SemanticProperties.Hint="Preview and possible runt a image through the network"
+                HorizontalOptions="Fill"
+                />
             <Button
                 x:Name="bCurrentStatistics"
                 Text="Go to current network stats"
                 Clicked="CurrentNetworkStats"
                 SemanticProperties.Hint="See current network statistics"
-                HorizontalOptions="Fill"/>
+                HorizontalOptions="Fill"
+                />
         </VerticalStackLayout>
     </ScrollView>
 

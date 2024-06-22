@@ -1,0 +1,27 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             x:Class="Ai.MNIST.UI.PreviewImagePage">
+    
+    <ScrollView>
+        <VerticalStackLayout x:Name="MainContainer" Padding="10">
+            <Button x:Name="bNewTestingImage"
+                    Clicked="NewTestingImage"
+                    Text="New Testing Image"
+                    maui:SemanticProperties.Hint="Load a new testing image"
+                    HorizontalOptions="FillAndExpand" />
+            
+            <Button x:Name="bNewTrainingImage"
+                    Clicked="NewTrainingImage"
+                    Text="Load a new training image"
+                    maui:SemanticProperties.Hint="Load a new training image"
+                    HorizontalOptions="FillAndExpand" />
+            
+            <GraphicsView x:Name="myGraphicsView"
+                          HeightRequest="280"
+                          WidthRequest="280" />
+            <VerticalStackLayout x:Name="ImageResultsContainer" Padding="10">
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

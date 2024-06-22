@@ -1,4 +1,4 @@
-namespace MNIST.NeuralNetworks
+namespace Ai.MNIST.NeuralNetworks
 {
     public static class Util
     {

@@ -1,14 +1,18 @@
-using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Graphics.Skia;
+using System.Drawing;
+using System.Drawing.Imaging;
 
-namespace MNIST.Data
+namespace Ai.MNIST.Data
 {
     public static class MNIST
     {
-        private const string TrainImages = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataSetMNIST\train-images.idx3-ubyte";
+        /*private const string TrainImages = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataSetMNIST\train-images.idx3-ubyte";
         private const string TrainLabels = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataSetMNIST\train-labels.idx1-ubyte";
         private const string TestImages = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataSetMNIST\train-images.idx3-ubyte";
-        private const string TestLabels = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataSetMNIST\t10k-labels.idx1-ubyte";
+        private const string TestLabels = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataSetMNIST\t10k-labels.idx1-ubyte";*/
+        private const string TrainImages = @"C:\Users\corne\Desktop\Everything\C#\Ai\AiMaui\Ai\MNIST\DataBase\train-images-idx3-ubyte\train-images-idx3-ubyte";
+        private const string TrainLabels = @"C:\Users\corne\Desktop\Everything\C#\Ai\AiMaui\Ai\MNIST\DataBase\train-labels-idx1-ubyte\train-labels-idx1-ubyte";
+        private const string TestImages = @"C:\Users\corne\Desktop\Everything\C#\Ai\AiMaui\Ai\MNIST\DataBase\t10k-images-idx3-ubyte\t10k-images-idx3-ubyte";
+        private const string TestLabels = @"C:\Users\corne\Desktop\Everything\C#\Ai\AiMaui\Ai\MNIST\DataBase\t10k-labels-idx1-ubyte\t10k-labels-idx1-ubyte";
         enum Mode
         {
             Training,
@@ -74,7 +78,7 @@ namespace MNIST.Data
 
            return new float[0,0]; 
         }
-        public static void ConvertToPng( byte[,] image )
+        /*public static void ConvertToPng( byte[,] image )
         {
             string PngOutput = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataBase\PngFiles";
             int index = 0 ;
@@ -87,28 +91,24 @@ namespace MNIST.Data
 
             // Create a new bitmap with the dimensions of an MNIST image (28x28)
 #pragma warning disable CA1416 // Validate platform compatibility
-            using (SkiaBitmapExportContext bitmap = new (28, 28, 1f))
+            using (Bitmap bitmap = new Bitmap(28, 28))
             {
-                ICanvas canvas = bitmap.Canvas;
-                canvas.FillColor = Colors.White;
-                canvas.FillRectangle(0, 0, 28, 28);
                 // Set each pixel in the bitmap based on the corresponding value in the MNIST image data
                 for (int i = 0; i < 28; i++)
                 {
                     for (int j = 0; j < 28; j++)
                     {
                         int pixelValue = image[index + i , j ];
-                        Color color = new( pixelValue / 255.0f, pixelValue / 255.0f, pixelValue / 255.0f);
-                        canvas.FillColor = color;
-                        canvas.FillRectangle(j, i, 1, 1);
+                        Color color = Color.FromArgb(pixelValue, pixelValue, pixelValue);
+                        bitmap.SetPixel(j, i, color);
                     }
                 }
 
                 // Save the bitmap as a PNG image
-                bitmap.WriteToFile( outputPath );
+                bitmap.Save(outputPath, ImageFormat.Png);
             }
 #pragma warning restore CA1416 // Validate platform compatibility
-        }
+        }*/
     }
     public class Image
     {

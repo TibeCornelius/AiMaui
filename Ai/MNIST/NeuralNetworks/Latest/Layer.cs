@@ -1,7 +1,8 @@
 using System.Text.Json;
 
-namespace MNIST.NeuralNetworks
+namespace Ai.MNIST.NeuralNetworks
 {
+
     public class Layer
     {
         public double[,] WeightsPreviousLayer;
@@ -359,5 +360,4 @@ namespace MNIST.NeuralNetworks
 
         #endregion
     }
-    
 }

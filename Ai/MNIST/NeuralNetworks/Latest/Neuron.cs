@@ -1,6 +1,5 @@
-namespace MNIST.NeuralNetworks
+namespace Ai.MNIST.NeuralNetworks
 {
-
     public struct StNeuron
     {
         public double input;

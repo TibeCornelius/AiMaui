@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using MNIST.NeuralNetworks;
+using Ai.MNIST.NeuralNetworks;
 
 namespace Ai.MNIST.UI
 {
@@ -70,9 +70,29 @@ namespace Ai.MNIST.UI
         {
             await Navigation.PushAsync( new ChooseCustomNetworkParametersPage( this ) );
         }
-        public void LoadOldNetwork( object sender, EventArgs e )
+        public async void LoadOldNetwork( object sender, EventArgs e )
         {
-            myNetworkManager.LoadInNetworkFromJson();
+            #if WINDOWS
+            // Windows specific file picker using FileOpenPicker
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.FileTypeFilter.Add(".json");
+
+            // Show file picker and get the selected file
+            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                // Process the selected file (e.g., read content)
+                using (var stream = await file.OpenStreamForReadAsync())
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string jsonContent = await reader.ReadToEndAsync();
+                        // Handle the jsonContent as needed
+                    }
+                }
+            }
+            #endif
+            //myNetworkManager.LoadInNetworkFromJson();
         }
 
         public void SerializeNetwork( object sender, EventArgs e )

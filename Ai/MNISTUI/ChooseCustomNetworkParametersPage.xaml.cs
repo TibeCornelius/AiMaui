@@ -1,5 +1,5 @@
 
-using MNIST.NeuralNetworks;
+using Ai.MNIST.NeuralNetworks;
 
 namespace Ai.MNIST.UI
 {

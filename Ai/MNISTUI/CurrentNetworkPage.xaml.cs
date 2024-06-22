@@ -1,4 +1,4 @@
-using MNIST.NeuralNetworks;
+using Ai.MNIST.NeuralNetworks;
 
 
 namespace Ai.MNIST.UI
@@ -17,6 +17,10 @@ namespace Ai.MNIST.UI
         private async void ImporteSetOfTrainingImages( object sender, EventArgs e )
         {
             await Navigation.PushAsync( new ImportImagesPage( myNetwork, myManager.ImportSetOfTrainingImages ) );
+        }
+        private async void PreviewAndImportImage( object sender, EventArgs e )
+        {
+            await Navigation.PushAsync( new PreviewImagePage( myManager.GetSingTestingingleImage, myManager.GetSingTrainingleImage, myNetwork.ImportSingleImage ) );
         }
 
         private async void ImporteSetOfTestingImages( object sender, EventArgs e )

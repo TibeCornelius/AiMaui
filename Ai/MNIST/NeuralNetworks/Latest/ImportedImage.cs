@@ -1,4 +1,4 @@
-namespace MNIST.NeuralNetworks
+namespace Ai.MNIST.NeuralNetworks
 {
     public struct ImportedImage
     {
@@ -10,4 +10,5 @@ namespace MNIST.NeuralNetworks
         public double cost;
         public double[] excpectedOutput;
     }
+
 }

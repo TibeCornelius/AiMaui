@@ -1,6 +1,8 @@
-using Microsoft.Maui.Graphics.Skia;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
-namespace MNIST.Data
+namespace Ai.MNIST.Data
 {
     public class MNISTExtra
     {   
@@ -102,7 +104,7 @@ namespace MNIST.Data
             return asciiChars[index];
         }
 
-        public void ConvertToPng( int index, string mqlskdjf )
+        /*public void ConvertToPng( int index, string mqlskdjf )
         {
             // Create a directory if it doesn't exist
             Directory.CreateDirectory( PngOutput );
@@ -112,30 +114,25 @@ namespace MNIST.Data
             string outputPath = Path.Combine( PngOutput, fileName);
 
             // Create a new bitmap with the dimensions of an MNIST image (28x28)
-            using ( SkiaBitmapExportContext bitmap = new( 28, 28, 1f ))
+            using (Bitmap bitmap = new Bitmap(28, 28))
             {
-                ICanvas canvas = bitmap.Canvas;
-                canvas.FillColor = Colors.White;
-                canvas.FillRectangle(0, 0, 28, 28);
                 // Set each pixel in the bitmap based on the corresponding value in the MNIST image data
                 for (int i = 0; i < 28; i++)
                 {
                     for (int j = 0; j < 28; j++)
                     {
                         int pixelValue = image[index * 28 * 28 + i * 28 + j ];
-                        Color color = new( pixelValue / 255.0f, pixelValue / 255.0f, pixelValue / 255.0f);
-                        canvas.FillColor = color;
-                        canvas.FillRectangle(j, i, 1, 1);
+                        Color color = Color.FromArgb(pixelValue, pixelValue, pixelValue);
+                        bitmap.SetPixel(j, i, color);
                     }
                 }
 
                 // Save the bitmap as a PNG image
-                bitmap.WriteToFile( outputPath );
+                bitmap.Save(outputPath, ImageFormat.Png);
             }
-        }
-        public static void ConvertToPng( byte[,] image )
+        }*/
+        /*public void ConvertToPng( byte[,] image )
         {
-            string PngOutput = @"C:\Users\corne\Desktop\Everything\C#\HelloWorld\Ai\AiNumbers\DataBase\PngFiles";
             int index = 0 ;
             // Create a directory if it doesn't exist
             Directory.CreateDirectory( PngOutput );
@@ -145,27 +142,22 @@ namespace MNIST.Data
             string outputPath = Path.Combine( PngOutput, fileName);
 
             // Create a new bitmap with the dimensions of an MNIST image (28x28)
-#pragma warning disable CA1416 // Validate platform compatibility
-            using (SkiaBitmapExportContext bitmap = new (28, 28, 1f))
+            using (Bitmap bitmap = new Bitmap(28, 28))
             {
                 // Set each pixel in the bitmap based on the corresponding value in the MNIST image data
-                ICanvas canvas = bitmap.Canvas;
-                canvas.FillColor = Colors.White;
-                canvas.FillRectangle(0, 0, 28, 28);
                 for (int i = 0; i < 28; i++)
                 {
                     for (int j = 0; j < 28; j++)
                     {
                         int pixelValue = image[index + i , j ];
-                        Color color = new( pixelValue / 255.0f, pixelValue / 255.0f, pixelValue / 255.0f);
-                        canvas.FillColor = color;
-                        canvas.FillRectangle(j, i, 1, 1);
+                        Color color = Color.FromArgb(pixelValue, pixelValue, pixelValue);
+                        bitmap.SetPixel(j, i, color);
                     }
                 }
 
                 // Save the bitmap as a PNG image
-                bitmap.WriteToFile( outputPath );
+                bitmap.Save(outputPath, ImageFormat.Png);
             }
-        }
+        }*/
     }
 }
