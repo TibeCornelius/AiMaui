@@ -9,33 +9,45 @@ namespace Ai.MNIST.UI
         private GetImage myGetTrainingImage;
         private GetImage myGetTestingImage;
         public delegate TrainingDataOutput RunImageThroughNetwork( MnistImage image );
-        private RunImageThroughNetwork myImageProccesor; 
+        private RunImageThroughNetwork myImageProccesor;
+        private MnistImage myCurrentImage;
         public PreviewImagePage( GetImage getTestingimage, GetImage getTrainingImage, RunImageThroughNetwork imageProccesing )
         {
             InitializeComponent();
             this.myGetTestingImage = getTestingimage;
             this.myGetTrainingImage = getTrainingImage;
+            MnistImage image = getTrainingImage();
+            this.myCurrentImage = image;
+            DisplayImage( image );
             this.myImageProccesor = imageProccesing;
         }
         private void NewTestingImage( object sender, EventArgs e )
         {
-            MnistImage image = myGetTestingImage();
-            DisplayImage( image );
-            DisplayCurrentImageResults( myImageProccesor( image ) );
+            myCurrentImage = myGetTestingImage();
+            DisplayImage( myCurrentImage );
+            
+        }
+        private void ProccesAndDisplayImageResults( object sender, EventArgs e )
+        {
+            ClearCurrentResults();
+            DisplayCurrentImageResults( myImageProccesor( myCurrentImage ) );
         }
         private void NewTrainingImage( object sender, EventArgs e )
         {
-            MnistImage image = myGetTrainingImage();
-            DisplayImage( image );
-            DisplayCurrentImageResults( myImageProccesor( image ) );
+            myCurrentImage = myGetTrainingImage();
+            DisplayImage( myCurrentImage );
         }
         private void DisplayImage( MnistImage image )
         {
             myGraphicsView.Drawable = new MnistDrawable( image.ImageData );
         }
+        private void ClearCurrentResults()
+        {
+            ImageResultsContainer.Children.Clear();            
+        }
         private void DisplayCurrentImageResults( TrainingDataOutput results )
         {
-            ImageResultsContainer.Children.Clear();
+            ClearCurrentResults();
             ImageData realResults = results.ImageData[0];
             Label iGuessed = new Label
             {
@@ -47,6 +59,14 @@ namespace Ai.MNIST.UI
             };
             ImageResultsContainer.Children.Add( iGuessed );
             ImageResultsContainer.Children.Add( Cost );
+            for( int numberIndex = 0 ; numberIndex < 10 ; numberIndex++ )
+            {
+                Label ResultProbability = new Label
+                {
+                    Text = numberIndex + " neuron output --> " + results.ImageData[0].neuronResults[ numberIndex ].output
+                };
+                ImageResultsContainer.Children.Add( ResultProbability );
+            }
             
         }
 

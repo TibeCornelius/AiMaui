@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using Ai.MNIST.NeuralNetworks;
+using Microsoft.Maui.Storage;
 
 namespace Ai.MNIST.UI
 {
@@ -58,6 +59,7 @@ namespace Ai.MNIST.UI
         {
             if( myNetworkManager.network is not null )
             {
+                PickOptions options = new PickOptions();
                 await Navigation.PushAsync( new CurrentNetworkPage( myNetworkManager.network, myNetworkManager ) );
             }
             else
@@ -70,28 +72,40 @@ namespace Ai.MNIST.UI
         {
             await Navigation.PushAsync( new ChooseCustomNetworkParametersPage( this ) );
         }
-        public async void LoadOldNetwork( object sender, EventArgs e )
+        private async void ChooseJsonFile()
         {
-            #if WINDOWS
-            // Windows specific file picker using FileOpenPicker
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            picker.FileTypeFilter.Add(".json");
-
-            // Show file picker and get the selected file
-            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
-            if (file != null)
+            try
             {
-                // Process the selected file (e.g., read content)
-                using (var stream = await file.OpenStreamForReadAsync())
+                PickOptions options = new()
                 {
-                    using (var reader = new StreamReader(stream))
+                    PickerTitle = "Please select a .json file",
+                    FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                     {
-                        string jsonContent = await reader.ReadToEndAsync();
-                        // Handle the jsonContent as needed
+                        { DevicePlatform.iOS, new[] { "public.json" } }, // UTType for iOS
+                        { DevicePlatform.MacCatalyst, new[] { "public.json" } }, // UTType for MacCatalyst
+                        { DevicePlatform.Android, new[] { "application/json" } }, // MIME type for Android
+                        { DevicePlatform.WinUI, new[] { ".json" } } // Extension for Windows
+                    })
+                };
+                FileResult? result = await FilePicker.Default.PickAsync( options );
+
+                if( result is not null )
+                {
+                    if( result.FileName.EndsWith("json", StringComparison.OrdinalIgnoreCase ) )
+                    {
+                        using IDisposable Stream = await result.OpenReadAsync();
+                        
                     }
                 }
             }
-            #endif
+            catch (Exception)
+            {
+
+            }
+        }
+        public async void LoadOldNetwork( object sender, EventArgs e )
+        {
+            ChooseJsonFile();
             //myNetworkManager.LoadInNetworkFromJson();
         }
 

@@ -10,13 +10,18 @@
                     Text="New Testing Image"
                     maui:SemanticProperties.Hint="Load a new testing image"
                     HorizontalOptions="FillAndExpand" />
-            
+
             <Button x:Name="bNewTrainingImage"
                     Clicked="NewTrainingImage"
                     Text="Load a new training image"
                     maui:SemanticProperties.Hint="Load a new training image"
                     HorizontalOptions="FillAndExpand" />
             
+            <Button x:Name="bProccesImage"
+                    Clicked="ProccesAndDisplayImageResults"
+                    Text="Procces current image"
+                    HorizontalOptions="FillAndExpand"/>
+
             <GraphicsView x:Name="myGraphicsView"
                           HeightRequest="280"
                           WidthRequest="280" />
