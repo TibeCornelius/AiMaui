@@ -1,4 +1,5 @@
 using Ai.MNIST.NeuralNetworks;
+using Ai.MNIST.NeuralNetworks.TrainingResults;
 
 namespace Ai.MNIST.UI
 {
@@ -6,17 +7,17 @@ namespace Ai.MNIST.UI
     {
         public ImportImages ourImportedImageSettings;
         private Network myNetwork;
-        public delegate List<TrainingDataOutput> RunImagesThroughNetwork( ImportImages importedImage );
+        public delegate List<TrainingBatch> RunImagesThroughNetwork( ImportImages trainingImages, bool DisplayResults = false );
         public RunImagesThroughNetwork delRunImagesThroughNetwork;
 
-        private List< TrainingDataOutput > myTrainingResult;
+        private List<TrainingBatch> myTrainingResult;
 
         public ImportImagesPage( Network network, RunImagesThroughNetwork runImagesThroughNetwork )
         {
             this.ourImportedImageSettings = new ImportImages();
             this.myNetwork = network;
             this.delRunImagesThroughNetwork = runImagesThroughNetwork;
-            this.myTrainingResult = new List<TrainingDataOutput>();
+            this.myTrainingResult = new List<TrainingBatch>();
             InitializeComponent();
         }
         private void TextChangesImageCount( object sender, TextChangedEventArgs e )
@@ -35,7 +36,7 @@ namespace Ai.MNIST.UI
         private void PassImagesThroughNetwork( object sender, EventArgs e )
         {
             RemoveOldResults();
-            myTrainingResult = delRunImagesThroughNetwork( ourImportedImageSettings );
+            myTrainingResult = delRunImagesThroughNetwork( ourImportedImageSettings, false );
             DisplayTrainingResults();
         }
         private void RemoveOldResults()
@@ -51,7 +52,7 @@ namespace Ai.MNIST.UI
                 return;
             }
 
-            foreach( TrainingDataOutput results in myTrainingResult )
+            foreach( TrainingBatch results in myTrainingResult )
             {
                 Label lCorrectGuesses = new Label
                 {

@@ -29,7 +29,7 @@ namespace Ai.MNIST.UI
         }
         private async void CurrentNetworkStats( object sender, EventArgs e )
         {
-            await Navigation.PushAsync( new CurrentNetworkStatsPage( myNetwork.OurTrainingResults ) );
+            await Navigation.PushAsync( new CurrentNetworkStatsPage( myNetwork.OurResultsContainer.OurTrainingResults ) );
         }
     }
 }

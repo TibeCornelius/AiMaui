@@ -1,6 +1,9 @@
 using CommunityToolkit.Maui.Views;
 using Ai.MNIST.NeuralNetworks;
-using Microsoft.Maui.Storage;
+
+using System.Text.Json;
+using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Storage;
 
 namespace Ai.MNIST.UI
 {
@@ -72,7 +75,7 @@ namespace Ai.MNIST.UI
         {
             await Navigation.PushAsync( new ChooseCustomNetworkParametersPage( this ) );
         }
-        private async void ChooseJsonFile()
+        private async Task ChooseJsonFile()
         {
             try
             {
@@ -94,6 +97,23 @@ namespace Ai.MNIST.UI
                     if( result.FileName.EndsWith("json", StringComparison.OrdinalIgnoreCase ) )
                     {
                         using IDisposable Stream = await result.OpenReadAsync();
+                        string OutPutPath = result.FullPath;
+                        string JsonString = File.ReadAllText( OutPutPath );
+                        try
+                        {
+                            NetworkJsonFormat? settings = JsonSerializer.Deserialize<NetworkJsonFormat>( JsonString );
+                            if( settings is null )
+                            {
+                                throw new NullReferenceException();
+                            }
+                            myNetworkManager.LoadInNetworkFromJson( settings );
+                            
+                            ChageCurrentDisplayOfNetwork();
+                        }
+                        catch
+                        {
+
+                        }
                         
                     }
                 }
@@ -105,13 +125,29 @@ namespace Ai.MNIST.UI
         }
         public async void LoadOldNetwork( object sender, EventArgs e )
         {
-            ChooseJsonFile();
+            await ChooseJsonFile();
             //myNetworkManager.LoadInNetworkFromJson();
         }
-
-        public void SerializeNetwork( object sender, EventArgs e )
+        private async Task SerializeNetworkToFolder( CancellationToken cancellationToken )
         {
-            myNetworkManager.SerializeWheightAndBiasesToJson();       
+            FolderPickerResult result = await FolderPicker.Default.PickAsync( cancellationToken );
+            if( result.IsSuccessful )
+            {
+                string? Result = await DisplayPromptAsync("FileName", "What should the output file be called");
+                if( Result is not null && Result != string.Empty )
+                {
+                    myNetworkManager.SerializeWheightAndBiasesToJson( Result );
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        public async void SerializeNetwork( object sender, EventArgs e )
+        {
+            await SerializeNetworkToFolder( new CancellationToken() );       
         }
 
     }

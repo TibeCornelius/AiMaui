@@ -24,7 +24,8 @@
 
             <GraphicsView x:Name="myGraphicsView"
                           HeightRequest="280"
-                          WidthRequest="280" />
+                          WidthRequest="280" 
+                          Drawable="{StaticResource drawable}"/>
             <VerticalStackLayout x:Name="ImageResultsContainer" Padding="10">
             </VerticalStackLayout>
         </VerticalStackLayout>

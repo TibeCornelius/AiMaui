@@ -1,10 +1,30 @@
+using Ai.MNIST.Util;
+using System.Text.Json.Serialization;
 namespace Ai.MNIST.NeuralNetworks
 {
-    public readonly struct NetworkJsonFormat( int layercount, int[] neuronCount, double[,] wheights, double[] biases )
+    public class NetworkJsonFormat
     {
-        private readonly int LayerCount = layercount ; 
-        private readonly int[] NeuronCount = neuronCount;
-        private readonly double[,] Wheights = wheights;
-        private readonly double[] Biasese = biases;
+        public int LayerCount { get; set; }
+        public int[] NeuronCount { get; set; }
+        public double[][][] Weights { get; set; }
+        public double[][] Biases { get; set; }
+
+
+        public NetworkJsonFormat(int layerCount, int[] neuronCount, List<double[,]> weights, List<double[]> biases)
+        {
+            LayerCount = layerCount;
+            NeuronCount = neuronCount;
+            Weights = Converter.List2DArrayToJaggedArray( weights );
+            Biases = Converter.ListToJaggedArray( biases );
+        }
+        [JsonConstructor]
+        public NetworkJsonFormat(int layerCount, int[] neuronCount, double[][][] weights, double[][] biases)
+        {
+            LayerCount = layerCount;
+            NeuronCount = neuronCount;
+            Weights = weights;
+            Biases = biases;
+        }
+
     }
 }

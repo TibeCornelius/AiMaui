@@ -1,15 +1,16 @@
 using Ai.MNIST.NeuralNetworks;
+using Ai.MNIST.NeuralNetworks.TrainingResults;
 
 namespace Ai.MNIST.UI
 {
     public partial class CurrentNetworkStatsPage : ContentPage
     {
-        List<TrainingDataOutput> myStats;
+        List<TrainingBatch> myStats;
         private Label[] AllTimeTotalGuesses;
         private Label[] AllTimeCorrectGuesses;
         private Label[] RecentTimeCorrectGuesses;
         private Label[] RecentTimeTotalGuesses;
-        public CurrentNetworkStatsPage( List<TrainingDataOutput> Stats )
+        public CurrentNetworkStatsPage( List<TrainingBatch> Stats )
         {
             InitializeComponent();
             this.AllTimeTotalGuesses =
@@ -114,7 +115,7 @@ namespace Ai.MNIST.UI
                 RecentTimeCorrectGuesses[ 10 ].Text = "Correct Guesses -> " + TotalCorrectGuesses + " ";
             } 
         }
-        private void DisplayCurrentStats( List<TrainingDataOutput> Stats )
+        private void DisplayCurrentStats( List<TrainingBatch> Stats )
         {
             int TotalCount = 0;
             int TotalCorrectGuesses = 0;
@@ -144,7 +145,7 @@ namespace Ai.MNIST.UI
                 { 8, 0 },
                 { 9, 0 },
             };
-            foreach( TrainingDataOutput stat in Stats )
+            foreach( TrainingBatch stat in Stats )
             {
                 foreach( ImageData imageData in stat.ImageData )
                 {

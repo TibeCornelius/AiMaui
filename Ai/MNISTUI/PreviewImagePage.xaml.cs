@@ -1,6 +1,10 @@
 using Ai.MNIST.NeuralNetworks;
+using Ai.MNIST.NeuralNetworks.TrainingResults;
+using Microsoft.Maui.Graphics;
 using MauiImage = Microsoft.Maui.Controls.Image;
 using MnistImage = Ai.MNIST.NeuralNetworks.Image;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Controls.Handlers;
 namespace Ai.MNIST.UI
 {
     public partial class PreviewImagePage : ContentPage
@@ -8,7 +12,7 @@ namespace Ai.MNIST.UI
         public delegate MnistImage  GetImage();
         private GetImage myGetTrainingImage;
         private GetImage myGetTestingImage;
-        public delegate TrainingDataOutput RunImageThroughNetwork( MnistImage image );
+        public delegate TrainingBatch RunImageThroughNetwork( MnistImage image );
         private RunImageThroughNetwork myImageProccesor;
         private MnistImage myCurrentImage;
         public PreviewImagePage( GetImage getTestingimage, GetImage getTrainingImage, RunImageThroughNetwork imageProccesing )
@@ -39,13 +43,13 @@ namespace Ai.MNIST.UI
         }
         private void DisplayImage( MnistImage image )
         {
-            myGraphicsView.Drawable = new MnistDrawable( image.ImageData );
+            myGraphicsView.Drawable = new myDrawable( image.ImageData );
         }
         private void ClearCurrentResults()
         {
             ImageResultsContainer.Children.Clear();            
         }
-        private void DisplayCurrentImageResults( TrainingDataOutput results )
+        private void DisplayCurrentImageResults( TrainingBatch results )
         {
             ClearCurrentResults();
             ImageData realResults = results.ImageData[0];
@@ -73,29 +77,53 @@ namespace Ai.MNIST.UI
     }
 
 
-    public class MnistDrawable : IDrawable
+    public class myDrawable : IDrawable
     {
-        private readonly byte[,] _data;
+        private byte[,]? _mnistData;
+        private List<(float x, float y, Color color)> _userDrawings;
 
-        public MnistDrawable(byte[,] data)
+        public myDrawable( byte[,]? mnistData = null )
         {
-            _data = data;
+            this._mnistData = mnistData;
+            _userDrawings = new List<(float x, float y, Color color)>();
+        }
+
+        public void SetMnistData( byte[,] data )
+        {
+            _mnistData = data;
+        }
+
+        public void AddUserDrawing(float x, float y, Color color)
+        {
+            _userDrawings.Add((x, y, color));
         }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            float cellSize = dirtyRect.Width / 28f;
-
-            for (int i = 0; i < 28; i++)
+            // Draw MNIST Image
+            if (_mnistData != null)
             {
-                for (int j = 0; j < 28; j++)
+                float cellSize = dirtyRect.Width / 28f;
+
+                for (int i = 0; i < 28; i++)
                 {
-                    byte value = _data[j, i];
-                    float grayScale = value / 255f;
-                    canvas.FillColor = new Color(grayScale, grayScale, grayScale);
-                    canvas.FillRectangle(i * cellSize, j * cellSize, cellSize, cellSize);
+                    for (int j = 0; j < 28; j++)
+                    {
+                        byte value = _mnistData[j, i];
+                        float grayScale = value / 255f;
+                        canvas.FillColor = new Color(grayScale, grayScale, grayScale);
+                        canvas.FillRectangle(i * cellSize, j * cellSize, cellSize, cellSize);
+                    }
                 }
+            }
+
+            // Draw User Drawings
+            foreach ( var drawing in _userDrawings )
+            {
+                canvas.FillColor = drawing.color;
+                canvas.FillCircle(drawing.x, drawing.y, 5); // Example size
             }
         }
     }
+
 }
