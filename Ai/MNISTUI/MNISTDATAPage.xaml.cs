@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using Ai.MNIST.NeuralNetworks;
+using MNIST.NeuralNetworks;
 
 using System.Text.Json;
 using CommunityToolkit.Maui.Core.Primitives;
@@ -136,7 +136,7 @@ namespace Ai.MNIST.UI
                 string? Result = await DisplayPromptAsync("FileName", "What should the output file be called");
                 if( Result is not null && Result != string.Empty )
                 {
-                    myNetworkManager.SerializeWheightAndBiasesToJson( Result );
+                    myNetworkManager.SerializeWheightAndBiasesToJson( Result, false, false );
                 }
             }
             else

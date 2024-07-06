@@ -13,3 +13,4 @@ Ai/Platforms/Windows/app.manifest
 Ai/Properties/launchSettings.json
 Ai/Platforms/Windows/Package.appxmanifest
 Ai.sln
+Ai\MNIST

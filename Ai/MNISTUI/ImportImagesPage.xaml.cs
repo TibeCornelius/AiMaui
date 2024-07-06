@@ -1,23 +1,26 @@
-using Ai.MNIST.NeuralNetworks;
-using Ai.MNIST.NeuralNetworks.TrainingResults;
+using MNIST.NeuralNetworks;
+using MNIST.NeuralNetworks.TrainingResults;
+using MNIST.Data;
 
 namespace Ai.MNIST.UI
 {
     public partial class ImportImagesPage : ContentPage
     {
-        public ImportImages ourImportedImageSettings;
-        private Network myNetwork;
-        public delegate List<TrainingBatch> RunImagesThroughNetwork( ImportImages trainingImages, bool DisplayResults = false );
+        public ImportSettings ourImportedImageSettings;
+        private Manager myNetworkManager;
+        public delegate bool RunImagesThroughNetwork( ImportSettings trainingImages, Mode mode,  bool DisplayResults, bool AddNoise = false );
         public RunImagesThroughNetwork delRunImagesThroughNetwork;
 
-        private List<TrainingBatch> myTrainingResult;
+        private List<TrainingSet> myTrainingResult;
+        private Mode myMode;
 
-        public ImportImagesPage( Network network, RunImagesThroughNetwork runImagesThroughNetwork )
+        public ImportImagesPage( Manager manager, RunImagesThroughNetwork runImagesThroughNetwork, Mode mode )
         {
-            this.ourImportedImageSettings = new ImportImages();
-            this.myNetwork = network;
+            this.ourImportedImageSettings = new ImportSettings();
+            this.myNetworkManager = manager;
+            this.myMode = mode;
             this.delRunImagesThroughNetwork = runImagesThroughNetwork;
-            this.myTrainingResult = new List<TrainingBatch>();
+            this.myTrainingResult = new List<TrainingSet>();
             InitializeComponent();
         }
         private void TextChangesImageCount( object sender, TextChangedEventArgs e )
@@ -36,7 +39,7 @@ namespace Ai.MNIST.UI
         private void PassImagesThroughNetwork( object sender, EventArgs e )
         {
             RemoveOldResults();
-            myTrainingResult = delRunImagesThroughNetwork( ourImportedImageSettings, false );
+            delRunImagesThroughNetwork( ourImportedImageSettings, myMode, false , false );
             DisplayTrainingResults();
         }
         private void RemoveOldResults()
@@ -52,7 +55,7 @@ namespace Ai.MNIST.UI
                 return;
             }
 
-            foreach( TrainingBatch results in myTrainingResult )
+            foreach( TrainingSet results in myTrainingResult )
             {
                 Label lCorrectGuesses = new Label
                 {

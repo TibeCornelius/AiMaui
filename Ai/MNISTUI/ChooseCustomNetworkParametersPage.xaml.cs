@@ -1,5 +1,5 @@
 
-using Ai.MNIST.NeuralNetworks;
+using MNIST.NeuralNetworks;
 
 namespace Ai.MNIST.UI
 {
@@ -41,13 +41,21 @@ namespace Ai.MNIST.UI
             }
             if( LayerCount <= 10 && LayerCount > 0 )
             {
-                for( int index = 0 ; index < LayerCount - 1 ; index++ )
+                for( int index = 0 ; index < LayerCount ; index++ )
                 {
-                    Entry entry = new Entry
+                    Entry entry = new();
+                    if( LayerCount - 1 == index )
                     {
-                        Placeholder = $"Enter neuron count of layer { index + 1 }",
-                        ClassId=$"{index}",
-                    };
+                        entry.Placeholder = "10 ( output layer neurons cannot be changed)";
+                        entry.ClassId = $"{index}";
+                        entry.IsEnabled = false;
+                    }
+                    else
+                    {
+                        entry.Placeholder = $"Enter neuron count of layer { index + 1 }";
+                        entry.ClassId = $"{index}";
+                    }
+              
                     entry.TextChanged += NeuronCountEntry;
                     NeuronCountContainer.Children.Add( entry );
                     DictNeuronCountEntrys.Add( index, string.Empty );
@@ -124,7 +132,7 @@ namespace Ai.MNIST.UI
                 }
             }
             NeuronCount[ LayerCount - 1 ] = 10;
-            myNetworkValeus.SetCustom( LayerCount, NeuronCount );
+            myNetworkValeus.SetCustom( LayerCount, NeuronCount, ActivationFunctionOptions.LeakyRelu, false );
             myParentPage.myInternalNetworkValues = myNetworkValeus;
             myParentPage.StartNewNetwork();
             myParentPage.ChageCurrentDisplayOfNetwork();

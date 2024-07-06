@@ -21,11 +21,22 @@
                     Clicked="ProccesAndDisplayImageResults"
                     Text="Procces current image"
                     HorizontalOptions="FillAndExpand"/>
+            
+            <Button x:Name="bNoiseToImage"
+                    Clicked="AddNoiseToImage"
+                    Text="Add noise to image"
+                    HorizontalOptions="FillAndExpand"/>
 
+            <Button x:Name="bRotateImage"
+                    Clicked="RotateImage90Degrees"
+                    Text="Rotate image by 90 degr"
+                    HorizontalOptions="FillAndExpand"/>
+
+                    
+                    
             <GraphicsView x:Name="myGraphicsView"
                           HeightRequest="280"
-                          WidthRequest="280" 
-                          Drawable="{StaticResource drawable}"/>
+                          WidthRequest="280" />
             <VerticalStackLayout x:Name="ImageResultsContainer" Padding="10">
             </VerticalStackLayout>
         </VerticalStackLayout>

@@ -4,28 +4,36 @@
              x:Class="Ai.MNIST.UI.ChooseCustomNetworkParametersPage">
 
     <ScrollView>
-        <StackLayout
-            Padding="30,0"
-            Spacing="25">
+        <StackLayout Padding="30,0" Spacing="25">
+            <Label
+                Text="Choose activation function"/>
+            <Picker x:Name="pActivationFunction">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Sigmoid</x:String>
+                        <x:String>Relu</x:String>
+                        <x:String>LeakyRelu</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            
             <Label
                 Text="Layer count"
                 Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel = "Level1"
-                />
+                SemanticProperties.HeadingLevel="Level1" />
+            
             <Entry
                 Placeholder="Enter layer count"
-                TextChanged="LayerCountEntry"
-                />
+                TextChanged="LayerCountEntry" />
+            
             <Button
                 x:Name="bNext"
                 Text="Next"
                 SemanticProperties.Hint="Start defining the neuron count on each layer"
                 HorizontalOptions="Fill"
-                Clicked="StartDefineNeuronCount"
-                />
-            <StackLayout x:Name="NeuronCountContainer"
-                Padding="0"
-                Spacing="10"/>
+                Clicked="StartDefineNeuronCount" />
+            
+            <StackLayout x:Name="NeuronCountContainer" Padding="0" Spacing="10" />
         </StackLayout>
     </ScrollView>
 
