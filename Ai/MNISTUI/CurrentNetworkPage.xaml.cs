@@ -7,7 +7,7 @@ namespace Ai.MNIST.UI
     public partial class CurrentNetworkPage : ContentPage
     {
         public Manager myManager;
-        public CurrentNetworkPage( Network network, Manager manager )
+        public CurrentNetworkPage( Manager manager )
         {
             this.myManager = manager;
             InitializeComponent();

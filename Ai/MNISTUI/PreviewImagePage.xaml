@@ -33,10 +33,32 @@
                     HorizontalOptions="FillAndExpand"/>
 
                     
-                    
-            <GraphicsView x:Name="myGraphicsView"
+            <Grid HeightRequest="280">
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                    <StackLayout 
+                        x:Name="LayerCountStack"
+                        Grid.Column="0"
+                        Padding="10">
+                        <GraphicsView x:Name="myGraphicsView"
                           HeightRequest="280"
                           WidthRequest="280" />
+                    </StackLayout>
+
+                    <!-- Content for the second column -->
+                    <StackLayout 
+                        Grid.Column="1"
+                        Padding="10">
+                        <Label 
+                            Text="Section 2"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                        <!-- Add more content here -->
+                    </StackLayout>
+            </Grid>        
+            
             <VerticalStackLayout x:Name="ImageResultsContainer" Padding="10">
             </VerticalStackLayout>
         </VerticalStackLayout>

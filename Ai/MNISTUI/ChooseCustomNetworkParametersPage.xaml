@@ -7,7 +7,7 @@
         <StackLayout Padding="30,0" Spacing="25">
             <Label
                 Text="Choose activation function"/>
-            <Picker x:Name="pActivationFunction">
+            <Picker x:Name="pActivationFunction" SelectedIndexChanged="OnActivationFunctionChanged">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Sigmoid</x:String>
@@ -16,6 +16,9 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
+            <Label
+                Text="{Binding Source={x:Reference pActivationFunction}, Path=SelectedItem}"
+                IsVisible="False"/>
             
             <Label
                 Text="Layer count"

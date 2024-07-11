@@ -13,6 +13,7 @@ namespace Ai.MNIST.UI
 
         private List<TrainingSet> myTrainingResult;
         private Mode myMode;
+        private bool AddNoise;
 
         public ImportImagesPage( Manager manager, RunImagesThroughNetwork runImagesThroughNetwork, Mode mode )
         {
@@ -21,7 +22,37 @@ namespace Ai.MNIST.UI
             this.myMode = mode;
             this.delRunImagesThroughNetwork = runImagesThroughNetwork;
             this.myTrainingResult = new List<TrainingSet>();
+            manager.ChangeNetworkDisplayImageResults( LiveDisplayImageResults );
+            manager.ChangeNetworkDisplaySetResults( LiveDisplaySetResults );
             InitializeComponent();
+        }
+        private void LiveDisplaySetResults( TrainingSet trainingSet )
+        {
+
+        }
+        private void LiveDisplayImageResults(ImageData imageData)
+        {
+
+            LiveResultsContainer.Children.Add(new Label { Text = $"Image Number: {imageData.ImageNumber}" });
+
+
+            LiveResultsContainer.Children.Add(new Label { Text = $"Cost: {imageData.Cost}" });
+
+            LiveResultsContainer.Children.Add(new Label { Text = $"Number Guessed: {imageData.NumberGuessed}" });
+
+            LiveResultsContainer.Children.Add(new Label { Text = $"Was Guess Correct: {imageData.wasGuesCorrect}" });
+        }
+
+        private void AddNoiseChange( object sender, EventArgs e )
+        {
+            if( pNoise.SelectedIndex == 1 )
+            {
+                AddNoise = false;
+            }
+            else if( pNoise.SelectedIndex == 0 )
+            {
+                AddNoise = true;
+            }
         }
         private void TextChangesImageCount( object sender, TextChangedEventArgs e )
         {
@@ -39,7 +70,7 @@ namespace Ai.MNIST.UI
         private void PassImagesThroughNetwork( object sender, EventArgs e )
         {
             RemoveOldResults();
-            delRunImagesThroughNetwork( ourImportedImageSettings, myMode, false , false );
+            delRunImagesThroughNetwork( ourImportedImageSettings, myMode, true , AddNoise );
             DisplayTrainingResults();
         }
         private void RemoveOldResults()
@@ -50,11 +81,8 @@ namespace Ai.MNIST.UI
         
         private void DisplayTrainingResults()
         {
-            if( myTrainingResult.Count == 0 )
-            {
-                return;
-            }
 
+            myTrainingResult= myNetworkManager.GetLatestTrainingSet();
             foreach( TrainingSet results in myTrainingResult )
             {
                 Label lCorrectGuesses = new Label

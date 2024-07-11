@@ -63,7 +63,7 @@ namespace Ai.MNIST.UI
             if( myNetworkManager.network is not null )
             {
                 PickOptions options = new PickOptions();
-                await Navigation.PushAsync( new CurrentNetworkPage( myNetworkManager.network, myNetworkManager ) );
+                await Navigation.PushAsync( new CurrentNetworkPage( myNetworkManager ) );
             }
             else
             {
@@ -130,13 +130,13 @@ namespace Ai.MNIST.UI
         }
         private async Task SerializeNetworkToFolder( CancellationToken cancellationToken )
         {
-            FolderPickerResult result = await FolderPicker.Default.PickAsync( cancellationToken );
-            if( result.IsSuccessful )
+            FolderPickerResult FolderLocation = await FolderPicker.Default.PickAsync( cancellationToken );
+            if( FolderLocation.IsSuccessful )
             {
                 string? Result = await DisplayPromptAsync("FileName", "What should the output file be called");
                 if( Result is not null && Result != string.Empty )
                 {
-                    myNetworkManager.SerializeWheightAndBiasesToJson( Result, false, false );
+                    myNetworkManager.SerializeWheightAndBiasesToJson( FolderLocation.Folder.Path, false, false, Result );
                 }
             }
             else

@@ -2,42 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ai.MNIST.UI.ImportImagesPage">
-
-
+    <ScrollView>
         <VerticalStackLayout Padding="10">
-            <StackLayout
-                Padding="30,0"
-                Spacing="25">
-                <Label
-                    Text="Layer count"
-                    Style="{StaticResource SubHeadline}"
-                    SemanticProperties.HeadingLevel = "Level1"
-                    />
-                <Entry
-                    Placeholder="Enter ammount of images"
-                    TextChanged="TextChangesImageCount"
-                    />
-                <Entry
-                    Placeholder="Enter ammount of itterations"
-                    TextChanged="TextChangedItterationsCount"
-                    />
-                <Button
-                    x:Name="bRunThroughNetwork"
-                    Text="Run through network"
-                    SemanticProperties.Hint="Start defining the neuron count on each layer"
-                    Clicked="PassImagesThroughNetwork"
-                    HorizontalOptions="Fill"
-                    />
-                <StackLayout x:Name="NeuronCountContainer"
-                    Padding="0"
-                    Spacing="10"/>
+            <StackLayout Padding="30,0" Spacing="25">
+                <Label Text="Layer count" Style="{StaticResource SubHeadline}" />
+                <Label Text="Add noise?" />
+                <Picker x:Name="pNoise" SelectedIndexChanged="AddNoiseChange">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Yes</x:String>
+                            <x:String>No</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Entry Placeholder="Enter amount of images" TextChanged="TextChangesImageCount" />
+                <Entry Placeholder="Enter amount of iterations" TextChanged="TextChangedItterationsCount" />
+                <Button x:Name="bRunThroughNetwork" Text="Run through network"
+                        SemanticProperties.Hint="Start defining the neuron count on each layer"
+                        Clicked="PassImagesThroughNetwork"
+                        HorizontalOptions="Fill" />
+                <StackLayout x:Name="NeuronCountContainer" Padding="0" Spacing="10" />
             </StackLayout>
-            <ScrollView>
-                <VerticalStackLayout Padding="10"
-                    x:Name="TrainingResultsContainer">
-                </VerticalStackLayout>
-            </ScrollView>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackLayout x:Name="TrainingResultsContainer" Grid.Column="0" Padding="10" />
+                <StackLayout x:Name="LiveResultsContainer" Grid.Column="1" Padding="10">
+                    <Label Text="Live Results" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </StackLayout>
+            </Grid>
         </VerticalStackLayout>
-
-
+    </ScrollView>
 </ContentPage>

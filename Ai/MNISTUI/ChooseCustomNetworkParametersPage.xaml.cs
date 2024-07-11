@@ -1,6 +1,5 @@
 
 using MNIST.NeuralNetworks;
-
 namespace Ai.MNIST.UI
 {
     public partial class ChooseCustomNetworkParametersPage : ContentPage
@@ -10,6 +9,7 @@ namespace Ai.MNIST.UI
         Dictionary<int, string> DictNeuronCountEntrys;
         NetworkValues myNetworkValeus;
         MNISTDATAPage myParentPage;
+        ActivationFunctionOptions? activationFunctionOptions;        
         public ChooseCustomNetworkParametersPage( MNISTDATAPage ParentPage )
         {
             this.myParentPage = ParentPage;
@@ -18,6 +18,14 @@ namespace Ai.MNIST.UI
             this.DictNeuronCountEntrys = []; 
             InitializeComponent();
             myNetworkValeus = new NetworkValues();
+            this.activationFunctionOptions = null;
+        }
+        private void OnActivationFunctionChanged( object sender, EventArgs e )
+        {
+            if( pActivationFunction.SelectedIndex != -1 )
+            {
+                activationFunctionOptions = (ActivationFunctionOptions)pActivationFunction.SelectedIndex;
+            }
         }
         private void LayerCountEntry( object sender, TextChangedEventArgs e )
         {
@@ -106,37 +114,48 @@ namespace Ai.MNIST.UI
 
         private async void ParametersEnterd( object? sender, EventArgs e )
         {
-            int[] NeuronCount = new int[ LayerCount ];
-            int index = 0;
-            foreach( string myNeuronCount in DictNeuronCountEntrys.Values )
+            if( activationFunctionOptions.HasValue)
             {
-                int count;
-                try
+                int[] NeuronCount = new int[ LayerCount ];
+                int index = 1;
+                foreach( string myNeuronCount in DictNeuronCountEntrys.Values )
                 {
-                    count = Convert.ToInt16( myNeuronCount );
+                    if( index == DictNeuronCountEntrys.Count )
+                    {
+                        continue;
+                    }
+                    int count;
+                    try
+                    {
+                        count = Convert.ToInt16( myNeuronCount );
+                    }
+                    catch
+                    {
+                        await DisplayAlert("Invalid LayerCount",$"Invalid neuron count in entry { index } detected","OK");
+                        return;
+                    }
+                    if( count > 0 && count < 2000 )
+                    {
+                        NeuronCount[ index - 1 ] = count;
+                        index++;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Invalid LayerCount",$"Invalid neuron count in entry { index } detected","OK");
+                        return;
+                    }
                 }
-                catch
-                {
-                    await DisplayAlert("Invalid LayerCount",$"Invalid neuron count in entry { index } detected","OK");
-                    return;
-                }
-                if( count > 0 && count < 2000 )
-                {
-                    NeuronCount[ index ] = count;
-                    index++;
-                }
-                else
-                {
-                    await DisplayAlert("Invalid LayerCount",$"Invalid neuron count in entry { index } detected","OK");
-                    return;
-                }
+                NeuronCount[ LayerCount - 1 ] = 10;
+                myNetworkValeus.SetCustom( LayerCount, NeuronCount, activationFunctionOptions.Value, true );
+                myParentPage.myInternalNetworkValues = myNetworkValeus;
+                myParentPage.StartNewNetwork();
+                myParentPage.ChageCurrentDisplayOfNetwork();
+                await Navigation.PopAsync();
             }
-            NeuronCount[ LayerCount - 1 ] = 10;
-            myNetworkValeus.SetCustom( LayerCount, NeuronCount, ActivationFunctionOptions.LeakyRelu, false );
-            myParentPage.myInternalNetworkValues = myNetworkValeus;
-            myParentPage.StartNewNetwork();
-            myParentPage.ChageCurrentDisplayOfNetwork();
-            await Navigation.PopAsync();
+            else
+            {
+                await DisplayAlert("Invalid activation function", "Please choose a activation function from the provided options", "OK");
+            }
         }
     }
 }
