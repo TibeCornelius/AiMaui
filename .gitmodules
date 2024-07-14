@@ -1,0 +1,3 @@
+[submodule "MNIST"]
+	path = MNIST
+	url = https://github.com/TibeCornelius/MNIST
