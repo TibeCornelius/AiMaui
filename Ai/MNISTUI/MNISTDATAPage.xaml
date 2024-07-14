@@ -1,6 +1,25 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ai.MNIST.UI.MNISTDATAPage">
+    <ContentPage.Resources>
+        <!-- Define Button Styles -->
+        <Style x:Key="CoolButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#6200EE" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="Black"
+                            Opacity="0.5"
+                            Offset="5,5"
+                            Radius="10" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="10">
             <Grid HeightRequest="200">
@@ -49,28 +68,28 @@
                     SemanticProperties.Hint="Create a new neural network with untrained wheights and biases"
                     HorizontalOptions="Fill"
                     Clicked="StartNewNetwork"
-                    />
+                    Style="{StaticResource CoolButtonStyle}" />
                 <Button
                     x:Name="bOldNetwork"
                     Text="Load in a previous network"
                     SemanticProperties.Hint="Load in a network from a .json file"
                     HorizontalOptions="Fill"
                     Clicked="LoadOldNetwork"
-                    />
+                    Style="{StaticResource CoolButtonStyle}" />
                 <Button
                     x:Name="bSerializeNetwork"
                     Text="Serialize current wheights and biases"
                     SemanticProperties.Hint="Export current wheights and biase in to a .json file"
                     HorizontalOptions="Fill"
                     Clicked="SerializeNetwork"
-                    />
+                    Style="{StaticResource CoolButtonStyle}" />
                 <Button
                     x:Name="bCurrentNetwork"
                     Text="Go to current Network"
                     SemanticProperties.Hint="Explore the options avaible with the current network loaded in"
                     HorizontalOptions="Fill"
                     Clicked="GoToCurrentNetworkPage"
-                    />
+                    Style="{StaticResource CoolButtonStyle}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

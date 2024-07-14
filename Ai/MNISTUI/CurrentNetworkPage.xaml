@@ -2,6 +2,25 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ai.MNIST.UI.CurrentNetworkPage">
+    <ContentPage.Resources>
+        <!-- Define Button Styles -->
+        <Style x:Key="CoolButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#6200EE" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="Black"
+                            Opacity="0.5"
+                            Offset="5,5"
+                            Radius="10" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
@@ -29,28 +48,28 @@
                 Clicked="ImporteSetOfTrainingImages" 
                 SemanticProperties.Hint="Imports a set of training images to further train the network"
                 HorizontalOptions="Fill" 
-                />
+                Style="{StaticResource CoolButtonStyle}" />
             <Button
                 x:Name="bImportTestingImages"
                 Text="Import set of Testing images"
                 Clicked="ImporteSetOfTestingImages"
                 SemanticProperties.Hint="Import a set of Testing images designed to test if the Training is proceding in a acceptable fashion"
                 HorizontalOptions="Fill"
-                />
+                Style="{StaticResource CoolButtonStyle}" />
             <Button
                 x:Name="bPreviewImage"
                 Text="Preview image"
                 Clicked="PreviewAndImportImage"
                 SemanticProperties.Hint="Preview and possible runt a image through the network"
                 HorizontalOptions="Fill"
-                />
+                Style="{StaticResource CoolButtonStyle}" />
             <Button
                 x:Name="bCurrentStatistics"
                 Text="Go to current network stats"
                 Clicked="CurrentNetworkStats"
                 SemanticProperties.Hint="See current network statistics"
                 HorizontalOptions="Fill"
-                />
+                Style="{StaticResource CoolButtonStyle}" />
         </VerticalStackLayout>
     </ScrollView>
 

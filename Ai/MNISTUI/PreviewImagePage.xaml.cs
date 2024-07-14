@@ -1,10 +1,11 @@
 using MNIST.NeuralNetworks;
 using MNIST.NeuralNetworks.TrainingResults;
-using Microsoft.Maui.Graphics;
+using CommunityToolkit.Maui.Views;
 using MauiImage = Microsoft.Maui.Controls.Image;
 using MnistImage = MNIST.NeuralNetworks.Image;
-using Microsoft.Maui.Graphics;
+using MNIST.Data;
 using Microsoft.Maui.Controls.Handlers;
+using CommunityToolkit.Maui.Core;
 namespace Ai.MNIST.UI
 {
     public partial class PreviewImagePage : ContentPage
@@ -15,16 +16,49 @@ namespace Ai.MNIST.UI
         public delegate TrainingSet RunImageThroughNetwork( MnistImage image );
         private RunImageThroughNetwork myImageProccesor;
         private MnistImage myCurrentImage;
+        private double myNoiseFactor;
+        private double myZoomFactor;
+        private double myRotationAngle;
+        private double Variance;
+
+        MauiImage mauiImage;
         public PreviewImagePage( GetImage getTestingimage, GetImage getTrainingImage, RunImageThroughNetwork imageProccesing )
         {
             InitializeComponent();
+            this.mauiImage = new MauiImage();
             this.myGetTestingImage = getTestingimage;
             this.myGetTrainingImage = getTrainingImage;
             MnistImage image = getTrainingImage( false );
             this.myCurrentImage = image;
+            this.BindingContext = this;
+
             DisplayImage( image );
             this.myImageProccesor = imageProccesing;
         }
+        private void ZoomFactorChanged( object sender, ValueChangedEventArgs e )
+        {
+            myZoomFactor = e.NewValue;
+        }
+        private void NoiseFactorChanged( object sender, ValueChangedEventArgs e )
+        {
+            myNoiseFactor = e.NewValue;
+        }
+        private void RotationAngleChanged( object sender, ValueChangedEventArgs e )
+        {
+            myRotationAngle = e.NewValue;
+        }
+        private void ChangeVariance( object sender, TextChangedEventArgs e )
+        {
+            try
+            {
+                Variance = Convert.ToDouble(e.NewTextValue);
+            }
+            catch
+            {
+
+            }
+        }
+        
         private void NewTestingImage( object sender, EventArgs e )
         {
             myCurrentImage = myGetTestingImage( false );
@@ -54,37 +88,62 @@ namespace Ai.MNIST.UI
             byte[,] imageData = myCurrentImage.ImageData;
             Random random = new Random();
            
-            for (int row = 0; row < imageData.GetLength( 0 ); row++)
+            imageData = Data.AddNoiseToImage( imageData, 0.1 );
+            DisplayImage( myCurrentImage );
+        }
+        private void AddZoomIn( object sender, EventArgs e )
+        {   
+            byte[,] imageData = myCurrentImage.ImageData;
+            Random random = new Random();
+            double ZoomFactor = myZoomFactor;
+            int focalX = 14;
+            int focalY = 14;
+            myCurrentImage = new MnistImage( Data.ZoomImageByMatrix( imageData, (float)ZoomFactor, focalX, focalY ), myCurrentImage.Label );
+            DisplayImage( myCurrentImage );
+        }
+        private async void loadSelfDrawnImage( object sender, EventArgs e )
+        {
+            int originalBitmap = await DrawableGraphicsView.RenderToBitmapAsync();
+
+            // Resize the image to 28x28
+            var resizedBitmap = originalBitmap.Resize(28, 28, ScalingMode.AspectFit);
+
+            // Convert the resized image to a byte array
+            var pixelArray = new byte[28 * 28];
+
+            for (int y = 0; y < 28; y++)
             {
-                for (int column = 0; column < imageData.GetLength( 1 ); column++)
+                for (int x = 0; x < 28; x++)
                 {
-                    if ( imageData[ row, column ] < 200)
-                    {
-                        if ( random.NextDouble() < 0.1)
-                        {
-                            int noise = random.Next( 0, ( 256 - imageData[row, column] ) / 2 );
-                            imageData[ row, column ] = ( byte )Math.Min( 255, imageData[ row, column ] + noise );
-                        }
-                    }
+                    var color = resizedBitmap.GetPixel(x, y);
+                    // Assuming black is 0 and white is 1 for simplicity
+                    // You may adjust this threshold based on your needs
+                    pixelArray[y * 28 + x] = (byte)(color.ToGray() > 0.5 ? 255 : 0);
                 }
             }
+        } 
+
+        private void RotateImage( object sender, EventArgs e )
+        {
+            byte[,] imageData = myCurrentImage.ImageData;
+            double RotationAngle = myRotationAngle;
+            myCurrentImage = new MnistImage( Data.RotateImage( imageData, RotationAngle ), myCurrentImage.Label );
+            DisplayImage( myCurrentImage );
+        }
+        private void AddRandomVariance( object sender, EventArgs e )
+        {
+            byte[,] imageData = myCurrentImage.ImageData;
+            myCurrentImage = new MnistImage( Data.AddRandomVariance( imageData, Variance ), myCurrentImage.Label );
             DisplayImage( myCurrentImage );
         }
 
 
-        private void RotateImage90Degrees( object sender, EventArgs e )
+        private void InvertColors( object sender, EventArgs e )
         {
             byte[,] imageData = myCurrentImage.ImageData;
             int rowLength = imageData.GetLength( 0 );
             int columnLength = imageData.GetLength( 1 );
-            byte[,] newImage = new byte[ rowLength, columnLength ];
-            for( int rowIndex = 0 ; rowIndex < rowLength ; rowIndex++ )
-            {
-                for( int columnIndex = 0 ; columnIndex < columnLength ; columnIndex++ )
-                {
-                    newImage[ rowIndex, columnIndex ] = imageData[ columnIndex, rowIndex ];
-                }
-            }
+            byte[,] newImage = Data.InvertColors( imageData );
             myCurrentImage = new MnistImage( newImage, myCurrentImage.Label );
             DisplayImage( myCurrentImage );
         }
@@ -114,6 +173,8 @@ namespace Ai.MNIST.UI
         }
 
     }
+    
+    
 
 
     public class myDrawable : IDrawable
@@ -154,13 +215,6 @@ namespace Ai.MNIST.UI
                         canvas.FillRectangle(i * cellSize, j * cellSize, cellSize, cellSize);
                     }
                 }
-            }
-
-            // Draw User Drawings
-            foreach ( var drawing in _userDrawings )
-            {
-                canvas.FillColor = drawing.color;
-                canvas.FillCircle(drawing.x, drawing.y, 5); // Example size
             }
         }
     }

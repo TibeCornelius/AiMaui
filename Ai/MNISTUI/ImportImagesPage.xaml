@@ -2,6 +2,25 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ai.MNIST.UI.ImportImagesPage">
+    <ContentPage.Resources>
+        <!-- Define Button Styles -->
+        <Style x:Key="CoolButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#6200EE" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="Black"
+                            Opacity="0.5"
+                            Offset="5,5"
+                            Radius="10" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout Padding="10">
             <StackLayout Padding="30,0" Spacing="25">
@@ -20,7 +39,7 @@
                 <Button x:Name="bRunThroughNetwork" Text="Run through network"
                         SemanticProperties.Hint="Start defining the neuron count on each layer"
                         Clicked="PassImagesThroughNetwork"
-                        HorizontalOptions="Fill" />
+                        Style="{StaticResource CoolButtonStyle}" />
                 <StackLayout x:Name="NeuronCountContainer" Padding="0" Spacing="10" />
             </StackLayout>
             <Grid>
